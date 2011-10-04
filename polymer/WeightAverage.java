@@ -4,8 +4,7 @@ import polymer.Ufunc;
 
 public class WeightAverage {
 
-	Initiator initiator = new Initiator();
-	
+	static IM RiRm = new IM();
 	double Io=GraphControl.getIo();
 	double Mo=GraphControl.getMo();
 	double r=GraphControl.getr();
@@ -72,8 +71,8 @@ public class WeightAverage {
         }
 	}
 	private double getEqualOne (int i){
-		Monomer monomer = new Monomer();
-		double Rm=monomer.getRm(i);
+
+		double Rm=RiRm.getRm(i);
 		double M=Rm*Mo;
     	double result = 1 - (M-Mo)/Io;
     	//System.out.print("Xw = ");

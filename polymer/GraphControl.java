@@ -6,10 +6,10 @@ package polymer;
 
 public class GraphControl {
 	
-    static double Io = 100;
+    static double Io = 1;
     static double Mo = 100;
-    static double ki = 10;
-    static double kp = 1;
+    static double ki = 1;
+    static double kp = 100;
     static double r = kp / ki;
     static double R = Math.abs(r-1);
 
