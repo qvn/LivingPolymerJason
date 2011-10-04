@@ -5,8 +5,8 @@ import polymer.Ufunc;
 
 public class NumberAverage {
 	
-	Initiator initiator = new Initiator();
-	Monomer monomer = new Monomer();
+	
+	static IM RiRm = new IM();
 	
 	double Io=GraphControl.getIo();
 	double Mo=GraphControl.getMo();
@@ -47,8 +47,8 @@ public class NumberAverage {
         }
 	}
 	private double getIsOne(int i){
-    	double M=monomer.getRm(i)*Mo;
-    	double I=initiator.getRi(i)*Io;
+    	double M=RiRm.getRm(i)*Mo;
+    	double I=RiRm.getRi(i)*Io;
 		double result = (M-Mo)/(I-Io);
 		//System.out.print("Xn = ");
     	//System.out.println(result);

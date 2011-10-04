@@ -7,15 +7,14 @@ import polymer.Monomer;
 
 public class Ufunc {
 	
-	Initiator initiator = new Initiator();
-	Monomer monomer = new Monomer();
+	static IM RiRm = new IM();
 	double Io=GraphControl.getIo();
 	double Mo=GraphControl.getMo();
 	double r=GraphControl.getr();
 	
 	private double getL(int i) {
-		double Rm=monomer.getRm(i);
-		double Ri=initiator.getRi(i);
+		double Rm=RiRm.getRm(i);
+		double Ri=RiRm.getRi(i);
 
 		double L=Mo/(Io*r)*(1-Rm)-(1-r)/r*(1-Ri);
 		

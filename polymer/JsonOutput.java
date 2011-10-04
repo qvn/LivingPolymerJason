@@ -4,8 +4,6 @@ package polymer;
 import org.json.simple.*;
 import polymer.*;
 import java.io.*;
-
-
 import polymer.GraphControl;
 import java.util.LinkedHashMap;   
 import java.util.Map;   
@@ -15,9 +13,7 @@ public class JsonOutput {
 	//Initializing Constants
 	//UserInput input = new UserInput();
 
-    
-    static Monomer M = new Monomer();
-    static Initiator I= new Initiator();
+	static IM RiRm = new IM();
     static Ufunc U = new Ufunc();
     static NumberAverage X_n = new NumberAverage();
     static WeightAverage X_w=new WeightAverage();
@@ -42,8 +38,6 @@ public class JsonOutput {
 	    JSONArray jArray = new JSONArray();
 
 	    JSONObject jObject=new JSONObject(); 
-	    
-	    
 	    JSONObject obj=new JSONObject();   
 
 	    JSONObject DataFile=new JSONObject();
@@ -52,14 +46,14 @@ public class JsonOutput {
 	    JSONArray N_x = new JSONArray();
 	    
 	    //Loop for Calculation
-		for (int i = 0; i<50; i++) {
+		for (int i = 0; i<100; i++) {
 			
 			t=i*sc;
 			
 			//Ri
-			Ri=I.getRi(i);
+			Ri=RiRm.getRi(i);
 			//Calculate Rm
-	    	Rm=M.getRm(i);
+	    	Rm=RiRm.getRm(i);
 	    	//Calculate u
 	    	u=U.getU(i);
 			//Calculate Xn
@@ -83,7 +77,7 @@ public class JsonOutput {
 	    		
 	    		//System.out.print(";"+round5(Ri));
 	    		//System.out.print(","+round5(u));
-	    		System.out.print(","+round5(Rm));
+	    		//System.out.print(","+round5(Rm));
 	    		//System.out.print(";"+round5(Xn));
 	    		//System.out.print(";"+round5(Xw));
 	    		//System.out.print("p"+round5(PDI));
