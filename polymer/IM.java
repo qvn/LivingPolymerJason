@@ -33,9 +33,10 @@ public class IM {
 		//now get dI and dM
 		dI=-dt*ki*M*I;
 		I=I+dI;
-		
+		if (I<0) {I=0;}
 		dM=-dt*(ki*M*I+kp*M*(Io-I));
 		M=M+dM;
+		if (M<0) {M=0;}
 		
 		RiArray[i]=I/Io;
 		RmArray[i]=M/Mo;
