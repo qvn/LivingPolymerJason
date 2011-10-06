@@ -63,7 +63,7 @@ public class IM {
 	pen.println("x=linspace(0,1,100);");
 	pen.println("Ri="+PrintOut_Ri+";");
 	pen.println("Rm="+PrintOut_Rm+";");
-	pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+FileName+": Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
+	pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
 	}
 
 
