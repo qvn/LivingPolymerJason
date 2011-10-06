@@ -1,4 +1,3 @@
-
 package polymer;
 
 import org.json.simple.*;
@@ -24,7 +23,7 @@ public class JsonOutput {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub 
+		 
 	    //Initialize Vars
 	    double t,Ri,Rm,PDI,Nx, Xw,Xn,u;
 	    int   x;
@@ -46,6 +45,7 @@ public class JsonOutput {
 	    JSONArray N_x = new JSONArray();
 	    
 	    //Loop for Calculation
+             // TODO Make sure i=0 Rm and Ri=1 not the value calculated.
 		for (int i = 0; i<100; i++) {
 			
 			t=i*sc;
