@@ -65,11 +65,11 @@ public class JsonOutput {
 			//Calculate Nx
 				//Accumulate Nx under one key
 	    	
-	    	for (int j=1;j<MaxX){
+	    	for (int j=1;j<MaxX;){
 	    		Nx=round5(N.calNx(i,j));
 	    		N_x.add(new Double((Nx)));
 				//This is to limit number of Nx down to around 100. 
-				j=j+Math.ceil(MaxX/100);
+			j=(int) (j+Math.ceil(MaxX/100));
 	    		}
 	    		
 			//Finally, put array into object
