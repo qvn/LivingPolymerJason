@@ -1,8 +1,6 @@
 package polymer;
 
-import polymer.GraphControl;
 import polymer.Initiator;
-import polymer.Monomer;
 
 
 public class Ufunc {

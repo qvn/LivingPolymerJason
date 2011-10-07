@@ -1,7 +1,6 @@
 package polymer;
 
 import java.util.Arrays;
-import polymer.GraphControl;
 public class IM {
 	static double I,M,dI,dM;
 	static double[] RiArray,RmArray;

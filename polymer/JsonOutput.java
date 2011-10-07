@@ -3,7 +3,6 @@ package polymer;
 import org.json.simple.*;
 import polymer.*;
 import java.io.*;
-import polymer.GraphControl;
 import java.util.LinkedHashMap;   
 import java.util.Map;   
 import org.json.simple.JSONValue;
@@ -69,7 +68,7 @@ public class JsonOutput {
 	    		Nx=round5(N.calNx(i,j));
 	    		N_x.add(new Double((Nx)));
 				//This is to limit number of Nx down to around 100. 
-			j=(int) (j+Math.ceil(MaxX/100));
+				j=(int) (j+Math.ceil(MaxX/100));
 	    		}
 	    		
 			//Finally, put array into object
