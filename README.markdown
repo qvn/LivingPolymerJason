@@ -6,33 +6,32 @@ This is a Json script for plotting chain polymerization according to Louis Gold'
 ## Misc
 Some of these notes are for me, you do not need to concern about it. However, it might useful in some cases. 
 
-# Working with git remotely at different computer
+### Working with git remotely at different computer
 Purpose: sometimes I'm at the lib and need to work on this. Don't have my computer with me but have some java compiler. 
 
-1. Get PortableGit: 
-
-http://code.google.com/p/msysgit/downloads/
+#### Get ready
+1. Get [PortableGit](http://code.google.com/p/msysgit/downloads/)
 
 2. Rename file from .7z to .exe to self extract. Extract it somewhere. 
 
 3. Launch "git-bash" or "git-cmd". Both for this time.
 
-Now let's get your stuff (http://stackoverflow.com/questions/67699/how-do-i-clone-all-remote-branches-with-git)
+#### Get your stuff down. 
 
-1. Get to a directory (probably your WorkSpace in Eclipse). Note that you must use Absolute path in the git-bash or git-cmd as it thinks root is where it resides.
+[Source from here](http://stackoverflow.com/questions/67699/how-do-i-clone-all-remote-branches-with-git)
 
+Get to a directory (probably your WorkSpace in Eclipse). Note that you must use Absolute path in the git-bash or git-cmd as it thinks root is where it resides.
 
-
-2. Make git, then clone (https link is from github)
+Make git, then clone (https link is from github)
 	
 	git init
 	git clone https://ma65p@github.com/ma65p/LivingPolymerJason.git
 
-3. Git will probably added the https already. That way you don't have to enter the URL everytime, if not do:
+Git will probably added the https already. That way you don't have to enter the URL everytime, if not do:
 
 	git remote add https://ma65p@github.com/ma65p/LivingPolymerJason.git
 
-4. For braches:
+For braches:
 
 	$ git branch -a
 	* master
@@ -51,7 +50,7 @@ But if you want to work on that branch, you'll need to create a local tracking b
 
 Remember to name experimental as experimental. Same branch name will save you some headache later. 
 
-5. More Repo!
+#### More Repo!
 
 You can actually track more than one remote repository using git remote.
 	
