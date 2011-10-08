@@ -66,20 +66,23 @@ R=Math.abs(1-r);
 	    //Note that your sc is your dt for now. This is to avoid over calculation.
 	    int pt=(int) Math.round(TimeTotal/dt);
 	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+pt+" - Use it? (1=Y/2=N)"); 
+	    
 	    //Number of points to plot, dt would determine the scale.
-	    if (Ans==2) {System.out.println("Terminated");System.exit(0); }
-	    if (Ans==1){
-	    	int StartPoint=0,EndPoint=0;
-	    	
-	    	if (pt>1000) {
-	    	System.out.println("That's lots of points. Define a Range of less than 1000 pts");
-	    	while (pt==0 | pt>1000){
-		    	StartPoint = StandAlone.getIntFromShell("Start point: ");
-		    	EndPoint = StandAlone.getIntFromShell("End point: ");
-		    	pt=EndPoint-StartPoint;
-		    	if (pt>1000 | pt==0) {System.out.print("Buddy, pt > 1000 or <=0. Try again.");}
-	    	} 
-	    }else {pt=(int) Math.round(TimeTotal/dt); EndPoint=pt;}
+//	    if (Ans==2) {System.out.println("Terminated");System.exit(0); }
+//	    if (Ans==1){
+//	    	int StartPoint=0,EndPoint=0;
+//	    	
+//	    	if (pt>1000) {
+//	    	System.out.println("That's lots of points. Define a Range of less than 1000 pts");
+//	    	while (pt==0 | pt>1000){
+//		    	StartPoint = StandAlone.getIntFromShell("Start point: ");
+//		    	EndPoint = StandAlone.getIntFromShell("End point: ");
+//		    	pt=EndPoint-StartPoint;
+//		    	if (pt>1000 | pt==0) {System.out.print("Buddy, pt > 1000 or <=0. Try again.");}
+//	    	} 
+//	    }else {pt=(int) Math.round(TimeTotal/dt); EndPoint=pt;}
+	    
+	    pt=10;
 	    
 	    //Note: the reason I put limit on pt is because of 2 reasons:
 	    //First, if you would like to see u slowly increase, that only happen in the fisrt few thousand points
@@ -155,7 +158,8 @@ if (Xw<=0.0 | (Double.isNaN(Xw))) {Xw = 1;}
 
 PDI = Xw/Xn;
 
-if (i>=StartPoint && i<=EndPoint){
+//if (i>=StartPoint && i<=EndPoint && u>=1 && u<=10000){
+if (u>=1 && u<=10000){
 	RiArray[i]=(I/Io);
 	RmArray[i]=round5(M/Mo);
 	UArray[i]=round5(u);
@@ -174,8 +178,8 @@ if (i>=StartPoint && i<=EndPoint){
 			//Matlab file
 			PrintFile();
 		}
-	    }
-}
+	}
+//}
 
 
 
@@ -193,8 +197,6 @@ public static void PrintFile () throws FileNotFoundException{
 	//pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+FileName+": Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
 }
 public static void PrintConsole() throws FileNotFoundException{
-	File SpaceDelimFile = new java.io.File(FileName+".txt");
-	FileOutputStream fos = new FileOutputStream(SpaceDelimFile, true);
 	System.out.println("Io="+Io+" Mo="+Mo+" ki="+ki+" kp="+kp+" r="+r+" dt="+dt);
 	System.out.println("t Ri Rm U Xn Xw PDI");
 		for (int j=0; j<StandAlone.pt; j++){
