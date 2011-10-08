@@ -4,6 +4,7 @@ import java.io.*;
 public class StandAlone {
 
 
+
 static double I,M,dI=0,dM=0;
 static double[] RiArray,RmArray,UArray,XwArray,XnArray,PDIArray;
 static String PrintOut_i, PrintOut_Ri, PrintOut_Rm;
@@ -30,18 +31,58 @@ if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
 r=kp/ki;
 R=Math.abs(1-r);
 
-System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
-//Note that your sc is your dt for now. This is to avoid over calculation.
 
 
-RiArray=new double[100];
-RmArray=new double[100];
-UArray=new double[100];
-XwArray=new double[100];
-XnArray=new double[100];
-PDIArray=new double[100];
 
-int pt=100; //Number of points to plot, dt would determine the scale.
+// Looking for the optimum Time when M depletes
+
+//Looking for Ri
+	double del = 0.00001, a = 0, b = 1, x, Rm_temp=0.001, Ri_temp=0;
+	x=Ri_temp;
+	double dx = b-a;   
+	      while (Math.abs(dx) > del) {
+	      x = (a+b)/2;
+	      double fa=Mo/Io*(Rm_temp-1)-(1-r)*(a-1)-r*Math.log(a);
+	      double fx=Mo/Io*(Rm_temp-1)-(1-r)*(x-1)-r*Math.log(x);
+	      if ((fa*fx) < 0) {
+	        b  = x;
+	        dx = b-a;
+	      }
+	      else {
+	        a = x;
+	        dx = b-a;
+	      }
+	    }
+	        if(x==(a+b)/2) {
+	        	x=0;
+	        	//This is to prevent if no root exist at Rm=0.001, if that is the
+	        	//case then all Ri has been gone a long time ago.
+	        }
+	    Ri_temp =x;
+
+	    double TimeTotal = -Math.log(Rm_temp)/(ki*Io*Ri_temp+kp*Io*(1-Ri_temp));
+
+	    System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
+	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal)+" Steps should be: "+TimeTotal/dt);
+	    System.out.println(" ");
+	    //Note that your sc is your dt for now. This is to avoid over calculation.
+
+
+
+
+
+
+
+	    int pt=100; //Number of points to plot, dt would determine the scale.
+
+RiArray=new double[pt];
+RmArray=new double[pt];
+UArray=new double[pt];
+XwArray=new double[pt];
+XnArray=new double[pt];
+PDIArray=new double[pt];
+
+
 
 //set initial values i==0
 I=Io;
@@ -96,12 +137,12 @@ if (Xw<=0.0 | (Double.isNaN(Xw))) {Xw = 1;}
 
 PDI = Xw/Xn;
 
-RiArray[i]=I/Io;
-RmArray[i]=M/Mo;
-UArray[i]=u;
-XwArray[i]=Xn;
-XnArray[i]=Xw;
-PDIArray[i]=PDI;
+RiArray[i]=round5(I/Io);
+RmArray[i]=round5(M/Mo);
+UArray[i]=round5(u);
+XwArray[i]=round5(Xn);
+XnArray[i]=round5(Xw);
+PDIArray[i]=round5(PDI);
 }
 
 
@@ -152,6 +193,9 @@ PrintOut_Rm=Arrays.toString(UArray);
 //			pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+FileName+": Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
 		}
 }
+
+
+
 
 
 
@@ -210,5 +254,10 @@ public static int getIntFromShell(String prompt)
       }
       return num ;
 }
-
+public static double round5(double num) {
+	 double result = num * 1E5;
+	 result = Math.round(result);
+	 result = result / 1E5;
+	 return result;
+	 }
 }
