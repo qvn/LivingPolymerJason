@@ -7,24 +7,24 @@ public class StandAlone {
 
 static double I,M,dI=0,dM=0;
 static double[] RiArray,RmArray,UArray,XwArray,XnArray,PDIArray;
-static String PrintOut_i, PrintOut_Ri, PrintOut_Rm;
-
+static String PrintOut_i, FileName = "test";
+static int pt;
+static double Io,Mo,ki,kp,sc,r,R,dt,u,L,Xw=1,Xn=1,PDI;
 
 
 //Let's do it!
 public static void main(String[] args) throws IOException {
-double Io,Mo,ki,kp,sc,r,R,dt,u,L,Xw=1,Xn=1,PDI;
-String FileName = "test";
+
 //Get initial Values
 //Io,Mo,sc,ki,kp
 //Io = StandAlone.getDoubleFromShell("Io: ");
 //Mo = StandAlone.getDoubleFromShell("Mo: ");
 //ki = StandAlone.getDoubleFromShell("ki: ");
 //kp = StandAlone.getDoubleFromShell("kp: ");
-Io=10;
-Mo=100000;
-ki=10;
-kp=1;
+Io=1;
+Mo=10000000;
+ki=1;
+kp=2;
 r=kp/ki;
 R=Math.abs(1-r);
 // Looking for the optimum Time when M depletes
@@ -58,17 +58,32 @@ R=Math.abs(1-r);
 	    //Now make a decision on dt. 
 	    dt = StandAlone.getDoubleFromShell("dt (default of 0.0005): ");
 	    //int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
-	    int FileType=1;
+	    int FileType=2;
 	    if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
 
 	    
 	    System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
 	    //Note that your sc is your dt for now. This is to avoid over calculation.
-
-	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+TimeTotal/dt+" - Use it? (1=Y/2=N)"); 
-	    int pt=100; //Number of points to plot, dt would determine the scale.
-	    if (Ans==1) {pt=(int) Math.round(TimeTotal/dt);} else {System.out.println("Terminated");System.exit(0); }
+	    int pt=(int) Math.round(TimeTotal/dt);
+	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+pt+" - Use it? (1=Y/2=N)"); 
+	    //Number of points to plot, dt would determine the scale.
+	    if (Ans==2) {System.out.println("Terminated");System.exit(0); }
+	    if (Ans==1){
+	    	int StartPoint=0,EndPoint=0;
+	    	
+	    	if (pt>1000) {
+	    	System.out.println("That's lots of points. Define a Range of less than 1000 pts");
+	    	while (pt==0 | pt>1000){
+		    	StartPoint = StandAlone.getIntFromShell("Start point: ");
+		    	EndPoint = StandAlone.getIntFromShell("End point: ");
+		    	pt=EndPoint-StartPoint;
+		    	if (pt>1000 | pt==0) {System.out.print("Buddy, pt > 1000 or <=0. Try again.");}
+	    	} 
+	    }else {pt=(int) Math.round(TimeTotal/dt); EndPoint=pt;}
 	    
+	    //Note: the reason I put limit on pt is because of 2 reasons:
+	    //First, if you would like to see u slowly increase, that only happen in the fisrt few thousand points
+	    //Second, if you would to see u at the end, use bigger time step for less points to get there. . 
 RiArray=new double[pt];
 RmArray=new double[pt];
 UArray=new double[pt];
@@ -140,67 +155,58 @@ if (Xw<=0.0 | (Double.isNaN(Xw))) {Xw = 1;}
 
 PDI = Xw/Xn;
 
-RiArray[i]=(I/Io);
-RmArray[i]=round5(M/Mo);
-UArray[i]=(u);
-XwArray[i]=round5(Xn);
-XnArray[i]=round5(Xw);
-PDIArray[i]=round5(PDI);
+if (i>=StartPoint && i<=EndPoint){
+	RiArray[i]=(I/Io);
+	RmArray[i]=round5(M/Mo);
+	UArray[i]=round5(u);
+	XwArray[i]=round5(Xn);
+	XnArray[i]=round5(Xw);
+	PDIArray[i]=round5(PDI);
 }
 
 
-PrintOut_Ri=Arrays.toString(RiArray);
-PrintOut_Rm=Arrays.toString(RmArray);
-PrintOut_Rm=Arrays.toString(UArray);
+}
 
-	if (FileType==1) {//Txt Output
+	if (FileType==1) {
+		//Txt Output
+		PrintConsole();
+		} else if (FileType==2){
+			//Matlab file
+			PrintFile();
+		}
+	    }
+}
 
 
 
-
+//Print Files
+public static void PrintFile () throws FileNotFoundException{
+	File outfile = new java.io.File(StandAlone.FileName+".txt");
+	PrintStream pen = new java.io.PrintStream(outfile);
+	//pen.println("x=linspace(0,1,"+pt+");");
+	pen.println("Ri="+Arrays.toString(RiArray)+";");
+	pen.println("Rm="+Arrays.toString(RmArray)+";");
+	pen.println("u="+Arrays.toString(UArray)+";");
+	pen.println("Xn="+Arrays.toString(XnArray)+";");
+	pen.println("Xw="+Arrays.toString(XwArray)+";");
+	pen.println("PDI="+Arrays.toString(PDIArray)+";");
+	//pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+FileName+": Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
+}
+public static void PrintConsole() throws FileNotFoundException{
 	File SpaceDelimFile = new java.io.File(FileName+".txt");
 	FileOutputStream fos = new FileOutputStream(SpaceDelimFile, true);
 	System.out.println("Io="+Io+" Mo="+Mo+" ki="+ki+" kp="+kp+" r="+r+" dt="+dt);
 	System.out.println("t Ri Rm U Xn Xw PDI");
-		for (int j=0; j<pt; j++){
+		for (int j=0; j<StandAlone.pt; j++){
 			
 			//System.out.print(round5(j*dt)+" ");
 			System.out.print(RiArray[j]+" ");
-			//System.out.print(RmArray[j]+" ");
-			System.out.println(UArray[j]+" ");
-			//System.out.print(XnArray[j]+" ");
-			//System.out.println(XwArray[j]+" ");
-//			System.out.println(PDIArray[j]);
-			
-//			fos.write((i*dt+" ").getBytes());
-//			fos.write((RiArray[i]+" ").getBytes());
-//			fos.write((RmArray[i]+" ").getBytes());
-//			fos.write((UArray[i]+" ").getBytes());
-//			fos.write((XnArray[i]+" ").getBytes());
-//			fos.write((XwArray[i]+" ").getBytes());
-//			fos.write((PDIArray[i]+"").getBytes());
-
-			
-
-		}
-
-		 
-		
-		} else if (FileType==2){
-			//Matlab file
-//			File outfile = new java.io.File(FileName+".m");
-//			PrintStream pen = new java.io.PrintStream(outfile);
-//			pen.println("x=linspace(0,1,100);");
-//			pen.println("Ri="+PrintOut_Ri+";");
-//			pen.println("Rm="+PrintOut_Rm+";");
-//			pen.println("plot(x,Ri,x,Rm);h=legend('Ri', 'Rm');title("+"'"+FileName+": Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+"'"+")");
-		}
-}
-
-
-
-
-
+			System.out.print(RmArray[j]+" ");
+			System.out.print(UArray[j]+" ");
+			System.out.print(XnArray[j]+" ");
+			System.out.print(XwArray[j]+" ");
+			System.out.println(PDIArray[j]);
+}}
 
 //get String or simply enter from shell
 public static String getStringFromShell(String prompt)
