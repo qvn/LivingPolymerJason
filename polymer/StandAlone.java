@@ -17,23 +17,16 @@ double Io,Mo,ki,kp,sc,r,R,dt,u,L,Xw=1,Xn=1,PDI;
 String FileName = "test";
 //Get initial Values
 //Io,Mo,sc,ki,kp
-Io = StandAlone.getDoubleFromShell("Io: ");
-Mo = StandAlone.getDoubleFromShell("Mo: ");
-ki = StandAlone.getDoubleFromShell("ki: ");
-kp = StandAlone.getDoubleFromShell("kp: ");
-dt = StandAlone.getDoubleFromShell("dt (default of 0.0005): ");
-int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
-if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
-
-//if (dt==null) {
-	//dt=0.0005;
-//	}
+//Io = StandAlone.getDoubleFromShell("Io: ");
+//Mo = StandAlone.getDoubleFromShell("Mo: ");
+//ki = StandAlone.getDoubleFromShell("ki: ");
+//kp = StandAlone.getDoubleFromShell("kp: ");
+Io=10;
+Mo=100000;
+ki=10;
+kp=1;
 r=kp/ki;
 R=Math.abs(1-r);
-
-
-
-
 // Looking for the optimum Time when M depletes
 
 //Looking for Ri
@@ -59,22 +52,23 @@ R=Math.abs(1-r);
 	        	//case then all Ri has been gone a long time ago.
 	        }
 	    Ri_temp =x;
-
+	    //Got Ri, Now TotalTime
 	    double TimeTotal = -Math.log(Rm_temp)/(ki*Io*Ri_temp+kp*Io*(1-Ri_temp));
+	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal));
+	    //Now make a decision on dt. 
+	    dt = StandAlone.getDoubleFromShell("dt (default of 0.0005): ");
+	    //int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
+	    int FileType=1;
+	    if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
 
+	    
 	    System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
-	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal)+" Steps should be: "+TimeTotal/dt);
-	    System.out.println(" ");
 	    //Note that your sc is your dt for now. This is to avoid over calculation.
 
-
-
-
-
-
-
+	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+TimeTotal/dt+" - Use it? (1=Y/2=N)"); 
 	    int pt=100; //Number of points to plot, dt would determine the scale.
-
+	    if (Ans==1) {pt=(int) Math.round(TimeTotal/dt);} else {System.out.println("Terminated");System.exit(0); }
+	    
 RiArray=new double[pt];
 RmArray=new double[pt];
 UArray=new double[pt];
@@ -103,9 +97,18 @@ if (M<0) {M=0;}
 if (i==0) {I=Io;M=Mo;}
 
 //U Cal methods
-L=Mo/(Io*r)*(1-M/Mo)-(1-r)/r*(1-I/Io);
-if (r==1) {u = L;} else {u = R*L;}
-if (u<=0.0) {u=0;} 
+
+	if (r==1) {u = -Math.log(I/Io);} else {u = -R*Math.log(I/Io);}
+	if (Double.isInfinite(u)) { 
+		L=Mo/(Io*r)*(1-M/Mo)-(1-r)/r*(1-I/Io);
+		L=((M-Mo)-(1-r)*(I-Io))/(r*Io);
+
+		//System.out.print("U is Inf");
+		if (r==1) {u = -L;} else {u = -R*L;}
+	}
+
+
+
 
 
 //NumberAvg
@@ -137,9 +140,9 @@ if (Xw<=0.0 | (Double.isNaN(Xw))) {Xw = 1;}
 
 PDI = Xw/Xn;
 
-RiArray[i]=round5(I/Io);
+RiArray[i]=(I/Io);
 RmArray[i]=round5(M/Mo);
-UArray[i]=round5(u);
+UArray[i]=(u);
 XwArray[i]=round5(Xn);
 XnArray[i]=round5(Xw);
 PDIArray[i]=round5(PDI);
@@ -161,12 +164,12 @@ PrintOut_Rm=Arrays.toString(UArray);
 	System.out.println("t Ri Rm U Xn Xw PDI");
 		for (int j=0; j<pt; j++){
 			
-			System.out.print(j*dt+" ");
+			//System.out.print(round5(j*dt)+" ");
 			System.out.print(RiArray[j]+" ");
-//			System.out.print(RmArray[j]+" ");
+			//System.out.print(RmArray[j]+" ");
 			System.out.println(UArray[j]+" ");
-//			System.out.print(XnArray[j]+" ");
-//			System.out.print(XwArray[j]+" ");
+			//System.out.print(XnArray[j]+" ");
+			//System.out.println(XwArray[j]+" ");
 //			System.out.println(PDIArray[j]);
 			
 //			fos.write((i*dt+" ").getBytes());
