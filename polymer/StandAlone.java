@@ -57,15 +57,17 @@ R=Math.abs(1-r);
 	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal));
 	    //Now make a decision on dt. 
 	    dt = StandAlone.getDoubleFromShell("dt (default of 0.0005): ");
+	    double u_desire=StandAlone.getDoubleFromShell("U_desire: ");
 	    //int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
-	    int FileType=2;
-	    if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
+//	    int FileType=2;
+//	    if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
 
 	    
 	    System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
+	    System.out.println("U Ri Rm Xn Xw PDI");
 	    //Note that your sc is your dt for now. This is to avoid over calculation.
-	    int pt=(int) Math.round(TimeTotal/dt);
-	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+pt+" - Use it? (1=Y/2=N)"); 
+//	    int pt=(int) Math.round(TimeTotal/dt);
+//	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+pt+" - Use it? (1=Y/2=N)"); 
 	    
 	    //Number of points to plot, dt would determine the scale.
 //	    if (Ans==2) {System.out.println("Terminated");System.exit(0); }
@@ -82,17 +84,17 @@ R=Math.abs(1-r);
 //	    	} 
 //	    }else {pt=(int) Math.round(TimeTotal/dt); EndPoint=pt;}
 	    
-	    pt=10;
+//	    pt=10000;
 	    
 	    //Note: the reason I put limit on pt is because of 2 reasons:
 	    //First, if you would like to see u slowly increase, that only happen in the fisrt few thousand points
-	    //Second, if you would to see u at the end, use bigger time step for less points to get there. . 
-RiArray=new double[pt];
-RmArray=new double[pt];
-UArray=new double[pt];
-XwArray=new double[pt];
-XnArray=new double[pt];
-PDIArray=new double[pt];
+//	    //Second, if you would to see u at the end, use bigger time step for less points to get there. . 
+//RiArray=new double[pt];
+//RmArray=new double[pt];
+//UArray=new double[pt];
+//XwArray=new double[pt];
+//XnArray=new double[pt];
+//PDIArray=new double[pt];
 
 
 
@@ -101,8 +103,8 @@ I=Io;
 M=Mo;
 
 
-for (int i=0; i<pt; i++) {
-
+//for (int i=0; i<pt; i++) {
+while (u<=u_desire+u_desire*.00001) {
 //now get dI and dM
 dI=-dt*ki*M*I;
 I=I+dI;
@@ -112,7 +114,7 @@ M=M+dM;
 if (M<0) {M=0;}
 
 
-if (i==0) {I=Io;M=Mo;}
+//if (i==0) {I=Io;M=Mo;}
 
 //U Cal methods
 
@@ -159,27 +161,37 @@ if (Xw<=0.0 | (Double.isNaN(Xw))) {Xw = 1;}
 PDI = Xw/Xn;
 
 //if (i>=StartPoint && i<=EndPoint && u>=1 && u<=10000){
-if (u>=1 && u<=10000){
-	RiArray[i]=(I/Io);
-	RmArray[i]=round5(M/Mo);
-	UArray[i]=round5(u);
-	XwArray[i]=round5(Xn);
-	XnArray[i]=round5(Xw);
-	PDIArray[i]=round5(PDI);
+
+if (u>=u_desire-u_desire*.0001 && u<u_desire+u_desire*0.001){
+
+	System.out.print(" "+u);
+	System.out.print(" "+I/Io);
+	System.out.print(" "+M/Mo);
+	System.out.print(" "+Xn);
+	System.out.print(" "+Xw);
+	System.out.print(" "+PDI);
+	System.out.println();
+
+//	RiArray[i]=(I/Io);
+//	RmArray[i]=round5(M/Mo);
+//	UArray[i]=round5(u);
+//	XwArray[i]=round5(Xn);
+//	XnArray[i]=round5(Xw);
+//	PDIArray[i]=round5(PDI);
 }
 
 
 }
 
-	if (FileType==1) {
-		//Txt Output
-		PrintConsole();
-		} else if (FileType==2){
-			//Matlab file
-			PrintFile();
-		}
-	}
-//}
+//	if (FileType==1) {
+//		//Txt Output
+//		PrintConsole();
+//		} else if (FileType==2){
+//			//Matlab file
+//			PrintFile();
+//		}
+//	}
+}
 
 
 
