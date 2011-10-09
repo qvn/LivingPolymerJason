@@ -3,6 +3,24 @@ This is an undergraduate research project for the University of Texas at Austin,
 
 This is a Json script for plotting chain polymerization according to Louis Gold's equation.
 
+## Some Files Description
+
+There are multiple files with main methods capable of running on its own:
+
+### JSONOutput.java
+This is the main file that will print the JSON output. I am not interested in getting this file longer and longer. Therefore other files were created for testing purposes. 
+
+Do note that other Java files that are not explained here probably left alone for a long time and they were made to be working with JSONOutput.java
+
+### Other Files with Main methods
+
+1. SingleIM: Made to only print I and M concentration. Nothing More. Probably will be deleted in the near future since PrintURange and PrintWithRange are more capable. 
+
+2. PrintWithRange: user is forced to define the time step, and if time step give more than a certain number of step, say 10000, user is then asked to provide the range. Mostly created to investigate U by messing around with dt and still not overflowing the memory. Maybe deleted as PrintURange is capable of getting a certain number of U.
+
+3. PrintURange: This was made to produce U values similar to that of Gold's. Note that Initial conditions must be defined in the file. Got tired of repeating the same input in the console. Too lazy to put a parser. Allow to print a range of values that is approx = to U_desire. dt must be changed to improve precisions. 
+
+
 ## Misc
 Some of these notes are for me, you do not need to concern about it. However, it might useful in some cases. 
 
