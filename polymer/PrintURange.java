@@ -1,7 +1,7 @@
 package polymer;
 import java.util.Arrays;
 import java.io.*;
-public class StandAlone {
+public class PrintURange {
 
 
 
@@ -56,8 +56,8 @@ R=Math.abs(1-r);
 	    double TimeTotal = -Math.log(Rm_temp)/(ki*Io*Ri_temp+kp*Io*(1-Ri_temp));
 	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal));
 	    //Now make a decision on dt. 
-	    dt = StandAlone.getDoubleFromShell("dt (default of 0.0005): ");
-	    double u_desire=StandAlone.getDoubleFromShell("U_desire: ");
+	    dt = PrintURange.getDoubleFromShell("dt (default of 0.0005): ");
+	    double u_desire=PrintURange.getDoubleFromShell("U_desire: ");
 	    //int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
 //	    int FileType=2;
 //	    if (FileType==2){FileName = StandAlone.getStringFromShell("File Name As: ");}
@@ -197,7 +197,7 @@ if (u>=u_desire-u_desire*.0001 && u<u_desire+u_desire*0.001){
 
 //Print Files
 public static void PrintFile () throws FileNotFoundException{
-	File outfile = new java.io.File(StandAlone.FileName+".txt");
+	File outfile = new java.io.File(PrintURange.FileName+".txt");
 	PrintStream pen = new java.io.PrintStream(outfile);
 	//pen.println("x=linspace(0,1,"+pt+");");
 	pen.println("Ri="+Arrays.toString(RiArray)+";");
@@ -211,7 +211,7 @@ public static void PrintFile () throws FileNotFoundException{
 public static void PrintConsole() throws FileNotFoundException{
 	System.out.println("Io="+Io+" Mo="+Mo+" ki="+ki+" kp="+kp+" r="+r+" dt="+dt);
 	System.out.println("t Ri Rm U Xn Xw PDI");
-		for (int j=0; j<StandAlone.pt; j++){
+		for (int j=0; j<PrintURange.pt; j++){
 			
 			//System.out.print(round5(j*dt)+" ");
 			System.out.print(RiArray[j]+" ");
