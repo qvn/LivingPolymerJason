@@ -21,6 +21,9 @@ Do note that other Java files that are not explained here probably left alone fo
 3. PrintURange: This was made to produce U values similar to that of Gold's. Note that Initial conditions must be defined in the file. Got tired of repeating the same input in the console. Too lazy to put a parser. Allow to print a range of values that is approx = to U_desire. dt must be changed to improve precisions. 
 
 
+
+
+
 ## Misc
 Some of these notes are for me, you do not need to concern about it. However, it might useful in some cases. 
 
