@@ -23,10 +23,11 @@ public static void main(String[] args) throws IOException {
 //kp = StandAlone.getDoubleFromShell("kp: ");
 Io=1;
 Mo=10000000;
-ki=1;
-kp=2;
+ki=.1;
+kp=1;
 r=kp/ki;
 R=Math.abs(1-r);
+dt=3e-7;
 // Looking for the optimum Time when M depletes
 
 //Looking for Ri
@@ -56,7 +57,8 @@ R=Math.abs(1-r);
 	    double TimeTotal = -Math.log(Rm_temp)/(ki*Io*Ri_temp+kp*Io*(1-Ri_temp));
 	    System.out.println("%"+"Total Time to deplete M= "+round5(TimeTotal));
 	    //Now make a decision on dt. 
-	    dt = PrintURange.getDoubleFromShell("dt (default of 0.0005): ");
+	    //dt = PrintURange.getDoubleFromShell("dt (default of 0.0005): ");
+	    
 	    double u_desire=PrintURange.getDoubleFromShell("U_desire: ");
 	    //int FileType = StandAlone.getIntFromShell("File Type As: (1) SpaceDlim (2) Matlab: ");
 //	    int FileType=2;
@@ -66,42 +68,14 @@ R=Math.abs(1-r);
 	    System.out.println("%"+"Io= "+Io+" Mo= "+Mo+" ki= "+ki+" kp= "+kp+" r= "+r+" dt= "+dt);
 	    System.out.println("U Ri Rm Xn Xw PDI");
 	    //Note that your sc is your dt for now. This is to avoid over calculation.
-//	    int pt=(int) Math.round(TimeTotal/dt);
-//	    int Ans = StandAlone.getIntFromShell("Number of pts will be "+pt+" - Use it? (1=Y/2=N)"); 
-	    
-	    //Number of points to plot, dt would determine the scale.
-//	    if (Ans==2) {System.out.println("Terminated");System.exit(0); }
-//	    if (Ans==1){
-//	    	int StartPoint=0,EndPoint=0;
-//	    	
-//	    	if (pt>1000) {
-//	    	System.out.println("That's lots of points. Define a Range of less than 1000 pts");
-//	    	while (pt==0 | pt>1000){
-//		    	StartPoint = StandAlone.getIntFromShell("Start point: ");
-//		    	EndPoint = StandAlone.getIntFromShell("End point: ");
-//		    	pt=EndPoint-StartPoint;
-//		    	if (pt>1000 | pt==0) {System.out.print("Buddy, pt > 1000 or <=0. Try again.");}
-//	    	} 
-//	    }else {pt=(int) Math.round(TimeTotal/dt); EndPoint=pt;}
-	    
-//	    pt=10000;
-	    
-	    //Note: the reason I put limit on pt is because of 2 reasons:
-	    //First, if you would like to see u slowly increase, that only happen in the fisrt few thousand points
-//	    //Second, if you would to see u at the end, use bigger time step for less points to get there. . 
-//RiArray=new double[pt];
-//RmArray=new double[pt];
-//UArray=new double[pt];
-//XwArray=new double[pt];
-//XnArray=new double[pt];
-//PDIArray=new double[pt];
 
 
 
 //set initial values i==0
 I=Io;
 M=Mo;
-
+Xw=1;
+Xn=1;
 
 //for (int i=0; i<pt; i++) {
 while (u<=u_desire+u_desire*.00001) {
